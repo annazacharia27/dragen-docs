@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipeline Setup and Input Requirements &mdash; NGS QC Documentation 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=e031e9a9"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Read-Level Quality Control and Alignment Review" href="fastqc.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            NGS QC Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pipeline Setup and Input Requirements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#workflow-overview">Workflow Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-applications">Supported Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-requirements">Input Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reference-genome-preparation">Reference Genome Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-compatibility-notes">File Compatibility Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastqc.html">Read-Level Quality Control and Alignment Review</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variant_calling.html">Variant Calling Quality Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_files.html">Final Outputs and Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="final_notes.html">Notes and Best Practices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NGS QC Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Pipeline Setup and Input Requirements</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pipeline_overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pipeline-setup-and-input-requirements">
+<h1>Pipeline Setup and Input Requirements<a class="headerlink" href="#pipeline-setup-and-input-requirements" title="Permalink to this heading"></a></h1>
+<p>The DRAGEN DNA Pipeline is engineered to accelerate secondary analysis of Next-Generation Sequencing (NGS) data.
+Built on the DRAGEN Bio-IT Platform, it integrates FPGA-based acceleration with optimized software for
+read mapping, alignment, sorting, duplicate marking, and haplotype-based variant calling.</p>
+<p>Compared to conventional tools (e.g., BWA-MEM + GATK-HC), DRAGEN processes a 30x whole human genome in under 30 minutes,
+with improved SNP and INDEL calling accuracy in validation studies.</p>
+<p>In addition to small variant detection, the pipeline optionally supports:</p>
+<ul class="simple">
+<li><p>Copy Number Variant (CNV) calling</p></li>
+<li><p>Structural Variant (SV) detection</p></li>
+<li><p>Repeat expansion and ploidy estimation</p></li>
+</ul>
+<p>This modular architecture is suitable for both research and clinical-grade applications.</p>
+<section id="workflow-overview">
+<h2>Workflow Overview<a class="headerlink" href="#workflow-overview" title="Permalink to this heading"></a></h2>
+<p>The DRAGEN DNA pipeline executes a streamlined sequence of high-speed modules:</p>
+<ol class="arabic simple">
+<li><p><strong>Read Mapping and Alignment</strong>
+- Uses FPGA-accelerated BWA implementation
+- Supports ALT-aware and decoy-contig reference mapping</p></li>
+<li><p><strong>Sorting and Duplicate Marking</strong>
+- Coordinate sorting of aligned reads
+- PCR duplicate reads are marked or optionally removed</p></li>
+<li><p><strong>Variant Calling</strong>
+- Haplotype-based detection of SNVs and INDELs
+- Optional CNV and SV calling modules</p></li>
+<li><p><strong>QC Metrics Generation</strong>
+- Alignment and variant metrics are generated in <cite>.csv</cite>, <cite>.vcf</cite>, and <cite>.gvcf</cite> formats</p></li>
+</ol>
+</section>
+<section id="supported-applications">
+<h2>Supported Applications<a class="headerlink" href="#supported-applications" title="Permalink to this heading"></a></h2>
+<p>DRAGEN supports a range of DNA sequencing use cases:</p>
+<ul class="simple">
+<li><p>Germline Whole Genome Sequencing (WGS)</p></li>
+<li><p>Whole Exome Sequencing (WES)</p></li>
+<li><p>Targeted gene panels</p></li>
+<li><p>Tumor/normal matched somatic variant analysis (licensed module)</p></li>
+<li><p>Repeat expansion detection (optional module)</p></li>
+</ul>
+</section>
+<section id="input-requirements">
+<h2>Input Requirements<a class="headerlink" href="#input-requirements" title="Permalink to this heading"></a></h2>
+<p>The following input formats are accepted:</p>
+<ul class="simple">
+<li><p><strong>File Types:</strong> FASTQ, BAM, CRAM, Illumina BCL (converted via cBCL), GVCF</p></li>
+<li><p><strong>Compression Support:</strong> Uncompressed, gzip/bgzip, ORA-compressed FASTQ</p></li>
+<li><p><strong>Read Formats:</strong> Single-end and paired-end supported</p></li>
+<li><p><strong>Coverage Guidelines:</strong>
+- WGS: Up to 300x
+- Tumor/Normal: Recommended 200x (tumor) / 100x (normal)</p></li>
+</ul>
+<p><strong>Important:</strong>
+If using BAM as input, DRAGEN <strong>ignores existing alignments</strong> and performs realignment. Paired-end BAMs must be sorted
+and contain correct read pairing for accurate processing.</p>
+</section>
+<section id="reference-genome-preparation">
+<h2>Reference Genome Preparation<a class="headerlink" href="#reference-genome-preparation" title="Permalink to this heading"></a></h2>
+<p>DRAGEN requires a prebuilt reference genome hash table, created using the <cite>–build-hash-table</cite> command.
+Illumina provides standard reference builds (e.g., hg19, GRCh38) with:</p>
+<ul class="simple">
+<li><p>ALT-aware liftover support (<cite>–ht-alt-liftover</cite>)</p></li>
+<li><p>Decoy contig integration to reduce false positives (<cite>–ht-decoys</cite>)</p></li>
+<li><p>Optimized indexing for fast seed lookups</p></li>
+</ul>
+<p>Users may also generate <strong>custom references</strong>, adjusting parameters such as seed length and memory allocation.
+Once loaded, the reference stays resident in memory until system reboots, enabling faster re-runs.</p>
+</section>
+<section id="file-compatibility-notes">
+<h2>File Compatibility Notes<a class="headerlink" href="#file-compatibility-notes" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>FASTQ files</strong> must follow Illumina lane/sample naming conventions</p></li>
+<li><p><strong>BAM files</strong> must be <strong>query-name sorted</strong> prior to alignment</p></li>
+<li><p><strong>Sample metadata</strong> (e.g., <cite>RGID</cite>, <cite>RGSM</cite>) must be specified at run time</p></li>
+</ul>
+<p>—</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fastqc.html" class="btn btn-neutral float-right" title="Read-Level Quality Control and Alignment Review" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Anna Z.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

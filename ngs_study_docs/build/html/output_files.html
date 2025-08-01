@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Final Outputs and Reports &mdash; NGS QC Documentation 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=e031e9a9"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Notes and Best Practices" href="final_notes.html" />
+    <link rel="prev" title="Variant Calling Quality Metrics" href="variant_calling.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            NGS QC Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline_overview.html">Pipeline Setup and Input Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fastqc.html">Read-Level Quality Control and Alignment Review</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variant_calling.html">Variant Calling Quality Metrics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Final Outputs and Reports</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#core-output-files">Core Output Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#qc-metrics-reports">QC Metrics Reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coverage-and-callability-reports">Coverage and Callability Reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specialized-caller-outputs">Specialized Caller Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="final_notes.html">Notes and Best Practices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NGS QC Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Final Outputs and Reports</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/output_files.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="final-outputs-and-reports">
+<h1>Final Outputs and Reports<a class="headerlink" href="#final-outputs-and-reports" title="Permalink to this heading"></a></h1>
+<p>The DRAGEN DNA Pipeline produces a comprehensive set of outputs that include aligned reads, variant calls, and quality control metrics. These are stored in the output directory, typically prefixed using the <code class="docutils literal notranslate"><span class="pre">--output-file-prefix</span></code> option.</p>
+<section id="core-output-files">
+<h2>Core Output Files<a class="headerlink" href="#core-output-files" title="Permalink to this heading"></a></h2>
+<p><strong>Alignment Files:</strong></p>
+<ul class="simple">
+<li><p><strong>BAM / CRAM / SAM</strong>: Default output is a sorted and compressed BAM file. CRAM or SAM can be selected via <code class="docutils literal notranslate"><span class="pre">--output-format</span></code>.</p></li>
+</ul>
+<p><strong>Variant Call Files:</strong></p>
+<ul class="simple">
+<li><p><strong>VCF</strong>: Contains SNV, INDEL, CNV, and SV variant calls. Separate files are generated for somatic and germline calls.</p></li>
+<li><p><strong>gVCF</strong>: Generated using <code class="docutils literal notranslate"><span class="pre">--vc-emit-ref-confidence</span> <span class="pre">GVCF</span></code>. Includes both variant and non-variant sites for joint genotyping workflows.</p></li>
+</ul>
+</section>
+<section id="qc-metrics-reports">
+<h2>QC Metrics Reports<a class="headerlink" href="#qc-metrics-reports" title="Permalink to this heading"></a></h2>
+<p><strong>Mapping and Alignment Metrics (`.mapping_metrics.csv`):</strong></p>
+<ul class="simple">
+<li><p>Input, duplicate, and unmapped reads</p></li>
+<li><p>Q30 base counts, indels, soft-clipped reads</p></li>
+<li><p>MAPQ scores and optional contamination estimates (if reference VCF is supplied)</p></li>
+</ul>
+<p><strong>Variant Calling Metrics (`.vc_metrics.csv`):</strong></p>
+<ul class="simple">
+<li><p>Total variants (SNPs, INDELs, MNPs), biallelic vs multiallelic sites</p></li>
+<li><p>Heterozygous to Homozygous (Het/Hom) and Transition to Transversion (Ti/Tv) ratios</p></li>
+<li><p>De novo variant metrics (DQ score)</p></li>
+<li><p>Callability metrics across genome and custom regions</p></li>
+<li><p>Mitochondrial and somatic-specific metrics (LOD, SQ scores)</p></li>
+</ul>
+<p><strong>Runtime Metrics (`.time_metrics.csv`):</strong></p>
+<ul class="simple">
+<li><p>Step-by-step runtime summary across pipeline stages (alignment, sorting, variant calling)</p></li>
+</ul>
+</section>
+<section id="coverage-and-callability-reports">
+<h2>Coverage and Callability Reports<a class="headerlink" href="#coverage-and-callability-reports" title="Permalink to this heading"></a></h2>
+<p><strong>Coverage Files:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_coverage_metrics.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">_overall_mean_cov.csv</span></code>, and <code class="docutils literal notranslate"><span class="pre">_contig_mean_cov.csv</span></code>: Summarize average depth, coverage uniformity, and per-chromosome metrics.</p></li>
+<li><p>BED output (e.g., <code class="docutils literal notranslate"><span class="pre">_full_res.bed</span></code>, <code class="docutils literal notranslate"><span class="pre">_cov_report.bed</span></code>): Provide region-specific depth statistics.</p></li>
+</ul>
+<p><strong>Callability Files:</strong></p>
+<ul class="simple">
+<li><p>BED format output (e.g., <code class="docutils literal notranslate"><span class="pre">target_bed_callability.bed</span></code>) summarizing PASSing genotype calls in callable regions (configured with <code class="docutils literal notranslate"><span class="pre">--qc-coverage-region-i</span></code>).</p></li>
+</ul>
+<p><strong>GC Bias Report (`.gc_metrics.csv`):</strong></p>
+<ul class="simple">
+<li><p>GC content vs. normalized coverage distribution, enabled via <code class="docutils literal notranslate"><span class="pre">--gc-metrics-enable</span></code>.</p></li>
+</ul>
+</section>
+<section id="specialized-caller-outputs">
+<h2>Specialized Caller Outputs<a class="headerlink" href="#specialized-caller-outputs" title="Permalink to this heading"></a></h2>
+<p><strong>Copy Number Variants (CNVs):</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.cnv.vcf.gz</span></code>, <code class="docutils literal notranslate"><span class="pre">.seg.called.merged</span></code> (segmentation file), <code class="docutils literal notranslate"><span class="pre">.cnv.igv_session.xml</span></code> for IGV visualization</p></li>
+</ul>
+<p><strong>Structural Variants (SVs):</strong></p>
+<ul class="simple">
+<li><p>VCFs and stats in <code class="docutils literal notranslate"><span class="pre">sv/results/</span></code> and <code class="docutils literal notranslate"><span class="pre">sv/results/stats/</span></code> directories (germline, somatic, or tumor-only)</p></li>
+</ul>
+<p><strong>Repeat Expansions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.repeats.vcf.gz</span></code> and graph BAM files; used in disorders like Huntington’s or Spinal Muscular Atrophy (SMA)</p></li>
+</ul>
+<p><strong>SMA (Spinal Muscular Atrophy):</strong></p>
+<ul class="simple">
+<li><p>SMA-related metrics embedded in repeat VCF with SMN-specific annotations</p></li>
+</ul>
+<p><strong>CYP2D6 Typing:</strong></p>
+<ul class="simple">
+<li><p>Drug metabolism report in <code class="docutils literal notranslate"><span class="pre">.cyp2d6.tsv</span></code></p></li>
+</ul>
+<p><strong>Ploidy Estimation and ROH (Runs of Homozygosity):</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.ploidy_estimation_metrics.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">.ploidy.vcf.gz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.roh.bed</span></code>, <code class="docutils literal notranslate"><span class="pre">.roh_metrics.csv</span></code> for homozygosity analysis</p></li>
+</ul>
+<p><strong>UMI Metrics:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.umi_metrics.csv</span></code> summarizing UMI grouping, error correction, and consensus read generation</p></li>
+</ul>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<p>The DRAGEN DNA Pipeline produces a well-structured output package suited for downstream interpretation, visualization, and regulatory review. These files support reproducible workflows across both research and clinical applications.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="variant_calling.html" class="btn btn-neutral float-left" title="Variant Calling Quality Metrics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="final_notes.html" class="btn btn-neutral float-right" title="Notes and Best Practices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Anna Z.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+Alignment and Post-Alignment QC
+================================
+
+After sequencing reads are aligned to a reference genome, the DRAGEN DNA Pipeline performs several quality control (QC) checks to assess how well the data was processed and to ensure accurate downstream analysis.
+
+Alignment Metrics
+-----------------
+
+The alignment step produces a file called ``<prefix>.mapping_metrics.csv`` which contains important alignment statistics, including:
+
+- **Total input reads**: Number of reads provided for alignment.
+- **Mapped and unmapped reads**: Number of reads that successfully aligned versus those that didn’t.
+- **Duplicate reads**: Reads flagged as duplicates to avoid bias in variant calling.
+- **Properly paired reads**: Reads that align correctly in a pair.
+- **Indels and soft-clipped bases**: Indicators of insertions, deletions, or low-quality read ends.
+- **Q30 bases**: Bases with quality scores ≥ 30, indicating high confidence.
+- **MAPQ scores**: Distribution of alignment confidence scores.
+- **Sample contamination**: Estimated level of contamination using a provided VCF file.
+
+Read Trimming
+-------------
+
+Low-quality or unwanted bases are trimmed before or after alignment. These details are captured in ``<prefix>.trimmer_metrics.csv``:
+
+- **Input and trimmed reads**: Total reads and bases before and after trimming.
+- **Poly-G trimming**: Common tail artifacts removed from reads.
+- **Adapter trimming**: Removal of adapter sequences.
+- **Length filtering**: Removal of very short reads post-trimming.
+- **Trimmer type breakdown**: Statistics for each trimming strategy (e.g., quality, adapter, ambiguous base, fixed-length).
+
+Coverage Reports
+----------------
+
+Coverage metrics show how evenly sequencing data covers the genome or specific regions.
+
+- Files include: ``wgs_coverage_metrics.csv``, ``wgs_hist.csv``, ``wgs_overall_mean_cov.csv``, etc.
+- Metrics cover:
+  - **Average coverage** across the genome or targeted regions.
+  - **Coverage uniformity** to ensure consistent sequencing depth.
+  - **Depth thresholds** (e.g., % of genome covered at ≥10x).
+  - **Chromosome-specific coverage** for autosomes, chrX, chrY, and mitochondria.
+
+GC Bias
+-------
+
+The ``gc_metrics.csv`` report helps evaluate whether sequencing coverage is affected by the GC content of DNA.
+
+- **Normalized coverage** across GC content bins.
+- **Dropout metrics** that highlight underrepresented GC-rich or GC-poor regions.
+- This helps identify potential sequencing or library prep issues.
+
+----
+
+These alignment and post-alignment QC metrics help verify that sequencing was successful, that the reads were mapped correctly, and that the data is suitable for downstream analyses such as variant calling.
