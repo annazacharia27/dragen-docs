@@ -14,8 +14,6 @@ In addition to small variant detection, the pipeline optionally supports:
 - Structural Variant (SV) detection
 - Repeat expansion and ploidy estimation
 
-This modular architecture is suitable for both research and clinical-grade applications.
-
 Workflow Overview
 -----------------
 
@@ -59,8 +57,8 @@ The following input formats are accepted:
   - WGS: Up to 300x
   - Tumor/Normal: Recommended 200x (tumor) / 100x (normal)
 
-**Important:**  
-If using BAM as input, DRAGEN **ignores existing alignments** and performs realignment. Paired-end BAMs must be sorted 
+**Note:**  
+If using BAM as input, DRAGEN ignores existing alignments and performs realignment. Paired-end BAMs must be sorted 
 and contain correct read pairing for accurate processing.
 
 Reference Genome Preparation
@@ -73,14 +71,14 @@ Illumina provides standard reference builds (e.g., hg19, GRCh38) with:
 - Decoy contig integration to reduce false positives (`--ht-decoys`)
 - Optimized indexing for fast seed lookups
 
-Users may also generate **custom references**, adjusting parameters such as seed length and memory allocation.  
+Users may also generate custom references, adjusting parameters such as seed length and memory allocation.  
 Once loaded, the reference stays resident in memory until system reboots, enabling faster re-runs.
 
 File Compatibility Notes
 ------------------------
 
 - **FASTQ files** must follow Illumina lane/sample naming conventions
-- **BAM files** must be **query-name sorted** prior to alignment
+- **BAM files** must be query-name sorted prior to alignment
 - **Sample metadata** (e.g., `RGID`, `RGSM`) must be specified at run time
 
 ---

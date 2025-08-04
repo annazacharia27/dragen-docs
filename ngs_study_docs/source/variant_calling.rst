@@ -2,10 +2,10 @@ Variant Calling Quality Metrics
 ===============================
 
 The DRAGEN DNA Pipeline outputs detailed variant-level quality control (QC) metrics in the 
-``<prefix>.vc_metrics.csv`` file. These help assess the accuracy, confidence, and distribution 
+`<prefix>.vc_metrics.csv` file. These help assess the accuracy, confidence, and distribution 
 of SNVs, INDELs, and MNPs across the genome.
 
-Metrics are reported for both **raw (prefiltered)** and **filtered (postfilter)** variants.
+Metrics are reported for both **raw (pre-filtered)** and **filtered (post-filter)** variants.
 
 General Variant Statistics
 --------------------------
@@ -32,11 +32,19 @@ De Novo Variant Metrics
 -----------------------
 
 DRAGEN identifies de novo variants not inherited from either parent based on a **De Novo Quality (DQ)** score.
+The DQ score is a Phred-scaled confidence score indicating the probability that a variant is truly de novo. A higher DQ score signifies greater confidence.
 
-- **VCF field**: ``INFO/DQ`` indicates ``DeNovo`` or ``LowDQ``
-- **Score thresholds** (adjustable):
-  - ``--qc-snp-denovo-quality-threshold``
-  - ``--qc-indel-denovo-quality-threshold``
+- **VCF Annotation**: The ``INFO/DQ`` field provides the de novo status for each variant:
+  
+  - ``DeNovo``: High-confidence de novo variant (DQ above threshold)
+  - ``LowDQ``: Lower-confidence de novo variant (DQ below threshold)
+
+- **Customizable Thresholds**:
+
+  - ``--qc-snp-denovo-quality-threshold`` for SNPs
+  - ``--qc-indel-denovo-quality-threshold`` for INDELs
+
+  These parameters allow users to control the minimum DQ score required for a variant to be flagged as de novo in the VCF.
 
 Known vs. Novel Variants (dbSNP Comparison)
 -------------------------------------------
@@ -49,15 +57,21 @@ If a reference database (e.g., dbSNP) is provided via ``--dbsnp``, DRAGEN compar
 Callability Metrics
 -------------------
 
-Callability measures the proportion of bases with confident genotype calls.
+Callability measures the proportion of bases in the genome or target region that receive confident genotype calls.
 
-- **Percent callability**: Fraction of non-N reference bases with PASS genotype
-- **Autosomal callability**: Callability restricted to autosomes
-- **Custom region callability**: Up to 3 BED files can be supplied with:
-  - ``--qc-coverage-region-i``
-  - ``--qc-coverage-reports-i``
+- **Percent callability**: Fraction of non-N reference bases with a genotype call that passes quality filters.
+- **Autosomal callability**: Callability calculated specifically for autosomal chromosomes.
 
-Output file: ``target_bed_callability.bed``
+**Custom region callability**:
+DRAGEN allows up to three custom regions to be specified using BED files. This is useful for evaluating coverage and variant calling quality in targeted panels or exome regions.
+
+- Provide BED files using: ``--qc-coverage-region-i`` (where ``i`` = 1, 2, or 3)
+- Specify output file names using: ``--qc-coverage-reports-i``
+
+Each custom region will generate a callability report that indicates the proportion of bases in that region with high-confidence calls.
+
+- **Output**: `target_bed_callability.bed`
+
 
 Chromosome Ratio Metrics
 ------------------------
@@ -72,23 +86,50 @@ These help evaluate sex karyotype, detect aneuploidies, and confirm sample ident
 Variant Quality Scores and Filters
 ----------------------------------
 
-DRAGEN uses optimized confidence scoring to reduce false positives.
+The DRAGEN DNA pipeline applies various quality scores and filters to ensure accurate identification of small variants, copy number variants (CNVs), and structural variants (SVs).
 
-- **QUAL**: Confidence in variant existence
-- **GQ (Genotype Quality)**: Confidence in genotype call
-- **QD (Quality by Depth)**: QUAL normalized by read depth
-- **LOD (Log Odds)**: Used for mitochondrial calls
+Small Variant Scores
+^^^^^^^^^^^^^^^^^^^^
 
-Mitochondrial-specific thresholds:
+- **QUAL**: Confidence score (Phred-scaled) that a variant exists at the site.
+- **GQ (Genotype Quality)**: Confidence in the accuracy of the genotype call.
+- **QD (Quality by Depth)**: QUAL score normalized by sequencing depth.
+- **DQ (De Novo Quality)**: Confidence score that a variant is de novo (not inherited).
+- **SQ (Somatic Quality)**: Used in somatic workflows to assess somatic variant confidence.
+- **LOD**: Used in mitochondrial variant calling instead of QUAL.
 
-- ``--vc-lod-call-threshold``
-- ``--vc-lod-filter-threshold``
+Small Variant Filters
+^^^^^^^^^^^^^^^^^^^^^
 
-Somatic-specific scoring (if tumor/normal pipeline enabled):
+- **Hard QUAL filters**: 
+  - `DRAGENSnpHardQUAL`: SNPs with low QUAL.
+  - `DRAGENIndelHardQUAL`: INDELs with low QUAL.
+- **Other filters**: 
+  - `LowDepth`, `PloidyConflict`, `lod_fstar`, `base_quality` (e.g., for mitochondrial or somatic variants).
+- **De Novo filter (DN field)**: 
+  - Annotates variants as `Inherited`, `LowDQ`, or `DeNovo` based on trio genotype and DQ threshold.
+- **Somatic filters**: 
+  - Applied in tumor-only or tumor-normal mode, e.g., `weak_evidence`, `panel_of_normals`, `low_af`.
 
-- **SQ (Somatic Quality)**: Replaces QUAL/GQ
-- Thresholds:
-  - ``--vc-sq-call-threshold``
-  - ``--vc-sq-filter-threshold``
+CNV Quality Metrics
+^^^^^^^^^^^^^^^^^^^
+
+- **QUAL**: Overall quality score of the CNV call.
+- **DQ**: Confidence for de novo CNVs.
+- **CN**: Estimated copy number for the region.
+- **Filters**: 
+  - Examples include `cnvQual`, `cnvCopyRatio`, `SampleFT`, and `lowModelConfidence`.
+
+SV Quality Metrics
+^^^^^^^^^^^^^^^^^^
+
+- **DQ**: De novo quality score for structural variants.
+- **SOMATICSCORE**: Confidence score for somatic SVs.
+- **Filters**: 
+  - Examples include `IMPRECISE`, `MinQUAL`, `MaxDepth`, `NoPairSupport`, `MinSomaticScore`, etc.
+
+General Notes
+^^^^^^^^^^^^^
+- DRAGEN also applies trimming, ALT-aware mapping, and duplicate marking to enhance overall variant quality.
 
 These QC outputs help assess variant reliability, ensure appropriate filtering, and provide essential metrics for regulatory audits and SVP validation.

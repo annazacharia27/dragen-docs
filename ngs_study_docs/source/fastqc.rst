@@ -8,7 +8,7 @@ which are essential for reliable variant calling and regulatory validation workf
 FASTQ Quality Control
 ---------------------
 
-Raw FASTQ data is evaluated using the DRAGEN FastQC module, which is automatically executed during any `map-align` run. 
+Raw FASTQ data is evaluated using the DRAGEN FastQC module, which is automatically executed during any ``map-align`` run. 
 It captures critical per-base and per-read quality metrics, modeled after the industry-standard FastQC tool.
 
 Key outputs:
@@ -27,7 +27,7 @@ Common QC checks include:
 - Quantile-based Phred score distributions
 
 Optional:  
-For rapid QC without alignment, use `--fastqc-only=true` to run FastQC alone (~70% faster).
+For rapid QC without alignment, use ``--fastqc-only=true`` to run FastQC alone (~70% faster).
 
 FASTQ Trimming and Filtering
 ----------------------------
@@ -38,7 +38,7 @@ Trimming types:
 
 - **Fixed-Length Trimming** — Removes bases from 5' end
 - **Poly-G Trimming** — Removes artifacts from two-channel chemistry (enabled by default)
-- **Quality Trimming** — Trims 3' bases below a quality threshold (e.g., `--trim-min-quality`)
+- **Quality Trimming** — Trims 3' bases below a quality threshold (e.g., ``--trim-min-quality``)
 - **Adapter Trimming** — Detects and removes adapter contamination
 - **Ambiguous Base Trimming** — Removes trailing Ns
 - **Min/Max Length Filtering** — Discards too-short reads or enforces uniform read length
@@ -56,16 +56,24 @@ Recommended Input Quality Thresholds
 
 These thresholds serve as practical QC gates before proceeding to alignment and variant calling.
 
-+--------------------------+--------------------------+
-| **Metric**               | **Recommended Threshold**|
-+--------------------------+--------------------------+
-| % Bases ≥ Q30            | ≥ 85%                    |
-| Mean Read Length         | 100-150 bp               |
-| Adapter Content          | < 5%                     |
-| GC Content (human DNA)   | 40-45%                   |
-| Duplication Rate         | < 20% (preferred)        |
-| Post-trim Min Read Length| ≥ 35 bp                  |
-+--------------------------+--------------------------+
+.. list-table:: Recommended Quality Thresholds
+   :widths: 30 30
+   :header-rows: 1
+
+   * - Metric
+     - Recommended Threshold
+   * - % Bases ≥ Q30
+     - ≥ 85%
+   * - Mean Read Length
+     - 100-150 bp
+   * - Adapter Content
+     - < 5%
+   * - GC Content (human DNA)
+     - 40-45%
+   * - Duplication Rate
+     - < 20% (preferred)
+   * - Post-trim Min Read Length
+     - ≥ 35 bp
 
 BCL-to-FASTQ Conversion QC
 --------------------------
@@ -114,7 +122,7 @@ Key coverage and bias metrics:
 - Average genome-wide coverage
 - Uniformity across genome or panel
 - Percentage genome covered at ≥10x
-- Coverage by chromosome (autosomes, chrX, chrY, MT)
+- Coverage by chromosome (autosomes, chrX, chrY, Mitochondrial chromosome(MT))
 - GC bias and dropout in high/low GC regions
 
 These reports help assess whether sequencing was successful, mapping was accurate, and the data is suitable for confident variant calling.

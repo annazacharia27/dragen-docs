@@ -18,13 +18,13 @@ Core Output Files
 QC Metrics Reports
 ------------------
 
-**Mapping and Alignment Metrics (`.mapping_metrics.csv`):**
+**Mapping and Alignment Metrics (.mapping_metrics.csv):**
 
 - Input, duplicate, and unmapped reads
 - Q30 base counts, indels, soft-clipped reads
 - MAPQ scores and optional contamination estimates (if reference VCF is supplied)
 
-**Variant Calling Metrics (`.vc_metrics.csv`):**
+**Variant Calling Metrics (.vc_metrics.csv):**
 
 - Total variants (SNPs, INDELs, MNPs), biallelic vs multiallelic sites
 - Heterozygous to Homozygous (Het/Hom) and Transition to Transversion (Ti/Tv) ratios
@@ -32,7 +32,7 @@ QC Metrics Reports
 - Callability metrics across genome and custom regions
 - Mitochondrial and somatic-specific metrics (LOD, SQ scores)
 
-**Runtime Metrics (`.time_metrics.csv`):**
+**Runtime Metrics (.time_metrics.csv):**
 
 - Step-by-step runtime summary across pipeline stages (alignment, sorting, variant calling)
 
@@ -41,15 +41,15 @@ Coverage and Callability Reports
 
 **Coverage Files:**
 
-- ``_coverage_metrics.csv``, ``_overall_mean_cov.csv``, and ``_contig_mean_cov.csv``: Summarize average depth, coverage uniformity, and per-chromosome metrics.
+- `_coverage_metrics.csv`, `_overall_mean_cov.csv`, and `_contig_mean_cov.csv`: Summarize average depth, coverage uniformity, and per-chromosome metrics.
 
-- BED output (e.g., ``_full_res.bed``, ``_cov_report.bed``): Provide region-specific depth statistics.
+- BED output (e.g., `_full_res.bed`, `_cov_report.bed`): Provide region-specific depth statistics.
 
 **Callability Files:**
 
-- BED format output (e.g., ``target_bed_callability.bed``) summarizing PASSing genotype calls in callable regions (configured with ``--qc-coverage-region-i``).
+- BED format output (e.g., `target_bed_callability.bed`) summarizing PASSing genotype calls in callable regions (configured with ``--qc-coverage-region-i``).
 
-**GC Bias Report (`.gc_metrics.csv`):**
+**GC Bias Report (.gc_metrics.csv):**
 
 - GC content vs. normalized coverage distribution, enabled via ``--gc-metrics-enable``.
 
@@ -58,7 +58,7 @@ Specialized Caller Outputs
 
 **Copy Number Variants (CNVs):**
 
-- ``.cnv.vcf.gz``, ``.seg.called.merged`` (segmentation file), ``.cnv.igv_session.xml`` for IGV visualization
+- `.cnv.vcf.gz`, `.seg.called.merged` (segmentation file), `.cnv.igv_session.xml` for IGV visualization
 
 **Structural Variants (SVs):**
 
@@ -66,7 +66,7 @@ Specialized Caller Outputs
 
 **Repeat Expansions:**
 
-- ``.repeats.vcf.gz`` and graph BAM files; used in disorders like Huntington's or Spinal Muscular Atrophy (SMA)
+- `.repeats.vcf.gz` and graph BAM files; used in disorders like Huntington's or Spinal Muscular Atrophy (SMA)
 
 **SMA (Spinal Muscular Atrophy):**
 
@@ -74,16 +74,16 @@ Specialized Caller Outputs
 
 **CYP2D6 Typing:**
 
-- Drug metabolism report in ``.cyp2d6.tsv``
+- Drug metabolism report in `.cyp2d6.tsv`
 
 **Ploidy Estimation and ROH (Runs of Homozygosity):**
 
-- ``.ploidy_estimation_metrics.csv``, ``.ploidy.vcf.gz``
-- ``.roh.bed``, ``.roh_metrics.csv`` for homozygosity analysis
+- `.ploidy_estimation_metrics.csv`, `.ploidy.vcf.gz`
+- `.roh.bed`, `.roh_metrics.csv` for homozygosity analysis
 
 **UMI Metrics:**
 
-- ``.umi_metrics.csv`` summarizing UMI grouping, error correction, and consensus read generation
+- `.umi_metrics.csv` summarizing UMI grouping, error correction, and consensus read generation
 
 Summary
 -------
