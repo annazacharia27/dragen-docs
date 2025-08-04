@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'NGS QC Documentation'
+project = 'DRAGEN Documentation'
 copyright = '2025, Anna Z'
-author = 'Anna Z'
+author = 'Anna Zacharia'
 release = '0.1'
 
 # -- General configuration ---------------------------------------------------
