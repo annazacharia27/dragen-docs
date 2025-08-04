@@ -20,8 +20,9 @@ Workflow Overview
 The DRAGEN DNA pipeline executes a streamlined sequence of high-speed modules:
 
 1. **Read Mapping and Alignment**
-   - Uses FPGA-accelerated BWA implementation
-   - Supports ALT-aware and decoy-contig reference mapping
+   - Uses FPGA-accelerated mapper with exact and near-exact seed matching
+   - Extracts short subsequences ("seeds") from each read to rapidly find matching locations in the reference
+   - Supports ALT-aware and decoy-contig reference mapping for improved accuracy in complex regions
 
 2. **Sorting and Duplicate Marking**
    - Coordinate sorting of aligned reads
@@ -33,6 +34,18 @@ The DRAGEN DNA pipeline executes a streamlined sequence of high-speed modules:
 
 4. **QC Metrics Generation**
    - Alignment and variant metrics are generated in `.csv`, `.vcf`, and `.gvcf` formats
+
+
+Variant Calling Modules
+-----------------------
+
+The DRAGEN DNA Pipeline supports high-confidence detection of multiple variant types:
+
+- **Small Variants (SNVs and INDELs):** Identified using a haplotype-based caller with localized de novo assembly and Phred-scaled confidence scoring.
+- **Copy Number Variants (CNVs):** Detected through normalized read depth analysis, identifying gains and losses across genomic segments. Both germline and somatic CNVs are supported.
+- **Structural Variants (SVs):** Optionally detected by analyzing split reads and discordant read pairs to identify larger genomic rearrangements (e.g., deletions, insertions, translocations).
+
+All variant types are output in VCF format, with quality scores and annotations appropriate to their calling model.
 
 Supported Applications
 ----------------------
@@ -64,15 +77,18 @@ and contain correct read pairing for accurate processing.
 Reference Genome Preparation
 ----------------------------
 
-DRAGEN requires a prebuilt reference genome hash table, created using the `--build-hash-table` command.  
+DRAGEN requires a prebuilt reference genome hash table, created using the ``--build-hash-table`` command.
+These hash tables index short subsequences ("seeds") from the reference genome, allowing the FPGA to rapidly match reads with exact or near-exact sequences during mapping.
+
 Illumina provides standard reference builds (e.g., hg19, GRCh38) with:
 
-- ALT-aware liftover support (`--ht-alt-liftover`)
-- Decoy contig integration to reduce false positives (`--ht-decoys`)
+- ALT-aware liftover support (``--ht-alt-liftover``)
+- Decoy contig integration to reduce false positives (``--ht-decoys``)
 - Optimized indexing for fast seed lookups
 
-Users may also generate custom references, adjusting parameters such as seed length and memory allocation.  
-Once loaded, the reference stays resident in memory until system reboots, enabling faster re-runs.
+Users may also generate custom references, adjusting parameters such as seed length and memory allocation.
+Once loaded, the reference stays resident in memory until system reboot, enabling faster re-runs.
+
 
 File Compatibility Notes
 ------------------------
