@@ -10,9 +10,9 @@ The DRAGEN DNA Pipeline dramatically reduces analysis time by leveraging FPGA-ba
 For example, processing a whole human genome at 30x coverage that can take 10+ hours with conventional 
 software can be completed in under 30 minutes using DRAGEN.
 
-This guide is designed for researchers, clinical bioinformaticians, and quality assurance teams who work with sequencing data, such as FASTQ or BAM files, for the detection of germline or somatic DNA variants.
+This guide is designed for researchers, clinical bioinformaticians, and quality assurance teams who work with sequencing data, such as FASTQ or BAM files for genomic analysis. It outlines procedures and quality metrics for read alignment, variant detection (germline and somatic), and result interpretation using the DRAGEN DNA Pipeline.
 
-It provides guidance on:
+The document provides guidance on:
 
 - Preparing input files and reference genomes
 - Assessing the quality of raw sequencing reads

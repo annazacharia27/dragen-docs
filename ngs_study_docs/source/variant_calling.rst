@@ -14,16 +14,20 @@ General Variant Statistics
 - **Reads processed**: Input reads used for variant calling (duplicates/off-target reads excluded)
 - **Total variants**: Combined count of SNPs, MNPs, and INDELs
 - **Variant types**:
+
   - SNPs (Single Nucleotide Polymorphisms)
   - INDELs (Insertions and Deletions)
   - MNPs (Multi-nucleotide polymorphisms)
 - **Biallelic vs. Multiallelic**:
+
   - Biallelic: One alternate allele
   - Multiallelic: ≥2 alternate alleles
 - **Zygosity**:
+
   - Heterozygous vs. Homozygous variant counts
   - Het/Hom ratio: Indicates genotype balance
 - **SNP Classification**:
+
   - Transitions (Ti): A↔G, C↔T
   - Transversions (Tv): Purine↔Pyrimidine
   - Ti/Tv Ratio: Higher ratio suggests higher variant calling specificity

@@ -20,20 +20,24 @@ Workflow Overview
 The DRAGEN DNA pipeline executes a streamlined sequence of high-speed modules:
 
 1. **Read Mapping and Alignment**
-   - Uses FPGA-accelerated mapper with exact and near-exact seed matching
-   - Extracts short subsequences ("seeds") from each read to rapidly find matching locations in the reference
-   - Supports ALT-aware and decoy-contig reference mapping for improved accuracy in complex regions
+
+   - Uses FPGA-accelerated mapper with exact and near-exact seed matching.
+   - Extracts short subsequences ("seeds") from each read to rapidly find matching locations in the reference.
+   - Supports ALT-aware and decoy-contig reference mapping for improved accuracy in complex regions.
 
 2. **Sorting and Duplicate Marking**
-   - Coordinate sorting of aligned reads
-   - PCR duplicate reads are marked or optionally removed
+
+   - Coordinate sorting of aligned reads.
+   - PCR duplicate reads are marked or optionally removed.
 
 3. **Variant Calling**
-   - Haplotype-based detection of SNVs and INDELs
-   - Optional CNV and SV calling modules
+
+   - Haplotype-based detection of SNVs and INDELs.
+   - Optional CNV and SV calling modules.
 
 4. **QC Metrics Generation**
-   - Alignment and variant metrics are generated in `.csv`, `.vcf`, and `.gvcf` formats
+
+   - Alignment and variant metrics are generated in `.csv`, `.vcf`, and `.gvcf` formats.
 
 
 Variant Calling Modules
